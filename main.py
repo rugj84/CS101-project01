@@ -1,25 +1,37 @@
-def calculate_mortgage(loan_amount, interest_rate, loan_term):
-    monthly_interest_rate = interest_rate / 100 / 12
-    num_payments = loan_term * 12
+class MortgageCalculator:
+    def __init__(self, loan_amount, interest_rate, loan_term):
+        self.loan_amount = loan_amount
+        self.interest_rate = interest_rate
+        self.loan_term = loan_term
 
-    # Calculate the monthly mortgage payment
-    monthly_payment = (loan_amount * monthly_interest_rate) / (1 - (1 + monthly_interest_rate) ** -num_payments)
+    def calculate_monthly_payment(self):
+        monthly_interest_rate = self.interest_rate / 100 / 12
+        num_payments = self.loan_term * 12
 
-    return monthly_payment
+        monthly_payment = (self.loan_amount * monthly_interest_rate) / (1 - (1 + monthly_interest_rate) ** -num_payments)
+
+        return monthly_payment
+
+
+def get_user_input(prompt):
+    while True:
+        try:
+            value = float(input(prompt))
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
 
 
 def main():
     print("Welcome to the Mortgage Calculator!")
 
-    # Get user inputs
-    loan_amount = float(input("Enter the loan amount: "))
-    interest_rate = float(input("Enter the annual interest rate (%): "))
-    loan_term = int(input("Enter the loan term (in years): "))
+    loan_amount = get_user_input("Enter the loan amount: ")
+    interest_rate = get_user_input("Enter the annual interest rate (%): ")
+    loan_term = get_user_input("Enter the loan term (in years): ")
 
-    # Calculate the monthly payment
-    monthly_payment = calculate_mortgage(loan_amount, interest_rate, loan_term)
+    mortgage_calculator = MortgageCalculator(loan_amount, interest_rate, loan_term)
+    monthly_payment = mortgage_calculator.calculate_monthly_payment()
 
-    # Display the result
     print("Monthly mortgage payment: $%.2f" % monthly_payment)
 
 
